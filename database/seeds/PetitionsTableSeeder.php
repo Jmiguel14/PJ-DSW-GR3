@@ -1,9 +1,9 @@
 <?php
 
-use App\Request;
+use App\Petition;
 use Illuminate\Database\Seeder;
 
-class RequestsTableSeeder extends Seeder
+class PetitionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,13 +13,13 @@ class RequestsTableSeeder extends Seeder
     public function run()
     {
         //Vaciar la tabla.
-        Request::truncate();
+        Petition::truncate();
 
         $faker = \Faker\Factory::create();
         // Crear notificaciones ficticias en la table
 
         for($i = 0; $i < 50; $i++) {
-            Request::create([
+            Petition::create([
                 'status'=> $faker->randomElement(['accepted', 'rejected']),
             ]);
         }
