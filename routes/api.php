@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Petition $request) {
     return $request->user();
 });*/
 
@@ -25,3 +25,9 @@ Route::post('products', 'ProductController@store');
 Route::put('products/{product}', 'ProductController@update');
 Route::delete('products/{product}', 'ProductController@delete');
 
+#Rutas para Petition
+Route::get('petitions', 'PetitionController@index');
+Route::get('petitions/{petition}', 'PetitionController@show');
+Route::post('petitions', 'PetitionController@store');
+Route::put('petitions/{petition}', 'PetitionController@update');
+Route::delete('petitions/{petition}', 'PetitionController@delete');
