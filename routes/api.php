@@ -31,3 +31,10 @@ Route::get('petitions/{petition}', 'PetitionController@show');
 Route::post('petitions', 'PetitionController@store');
 Route::put('petitions/{petition}', 'PetitionController@update');
 Route::delete('petitions/{petition}', 'PetitionController@delete');
+
+#Rutas para Notification
+Route::get('notifications', 'NotificationController@index');
+Route::get('notifications/{notification}', 'NotificationController@show');
+Route::post('notifications', 'NotificationController@store');
+Route::put('notifications/{notification}', 'NotificationController@update');
+Route::delete('notifications/{notification}', 'NotificationController@delete');
