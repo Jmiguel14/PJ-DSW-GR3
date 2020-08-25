@@ -38,3 +38,10 @@ Route::get('notifications/{notification}', 'NotificationController@show');
 Route::post('notifications', 'NotificationController@store');
 Route::put('notifications/{notification}', 'NotificationController@update');
 Route::delete('notifications/{notification}', 'NotificationController@delete');
+
+#Rutas para Category
+Route::get('categories', 'CategoryController@index');
+Route::get('categories/{category}', 'CategoryController@show');
+Route::post('categories', 'CategoryController@store');
+Route::put('categories/{category}', 'CategoryController@update');
+Route::delete('categories/{category}', 'CategoryController@delete');
