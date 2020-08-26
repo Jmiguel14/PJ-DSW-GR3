@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Product;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,7 +31,7 @@ class UsersTableSeeder extends Seeder
         ]);
         // Generar algunos usuarios para nuestra aplicacion
         for ($i = 0; $i < 9; $i++) {
-            User::create([
+            $user=User::create([
                 'name' => $faker->name,
                 'lastname' => $faker->lastName,
                 'email' => $faker->email,

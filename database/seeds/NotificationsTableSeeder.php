@@ -17,11 +17,15 @@ class NotificationsTableSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
         // Crear productos ficticios en la table
-
-        for($i = 0; $i < 20; $i++) {
-            Notification::create([
-                'message'=> $faker->paragraph,
-            ]);
+        $products=App\Product::all();
+        foreach ($products as $product){
+            for($i = 0; $i < 2; $i++) {
+                Notification::create([
+                    'message'=> $faker->paragraph,
+                    'product_id'=>$product->id,
+                ]);
+            }
         }
+
     }
 }
