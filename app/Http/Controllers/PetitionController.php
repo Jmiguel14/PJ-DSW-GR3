@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Petition as PetitionResource;
+use App\Http\Resources\PetitionCollection;
 use App\Petition;
 use Illuminate\Http\Request;
 
 class PetitionController extends Controller
 {
     public function index(){
-        return Petition::all();
+        return new PetitionCollection(Petition::paginate(10));
     }
 
     public function show(Petition $petition){
-        return $petition;
+        return response()->json(new PetitionResource($petition), 200);
     }
 
     public function store(Request $request){

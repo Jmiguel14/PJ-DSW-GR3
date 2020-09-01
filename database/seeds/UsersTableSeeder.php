@@ -29,6 +29,7 @@ class UsersTableSeeder extends Seeder
             'business_name' => 'tienda carmita',
             'description' => 'Mini marquet',
         ]);
+
         // Generar algunos usuarios para nuestra aplicacion
         for ($i = 0; $i < 9; $i++) {
             $user=User::create([

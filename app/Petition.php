@@ -12,7 +12,8 @@ class Petition extends Model
     public static function boot() {
         parent::boot();
         static::creating(function ($petition) {
-            $petition->user_id = Auth::id();
+            $petition->user_transmitter_id = Auth::id();
+            $petition->user_receiver_id = Auth::id();
         });
     }
 
