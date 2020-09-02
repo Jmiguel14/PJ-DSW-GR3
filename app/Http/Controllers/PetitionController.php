@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class PetitionController extends Controller
 {
+    private static $messages = [
+        'required' => 'El campo :attribute es obligatorio.'
+    ];
+
     public function index(){
         return new PetitionCollection(Petition::paginate(10));
     }
@@ -18,7 +22,10 @@ class PetitionController extends Controller
     }
 
     public function store(Request $request){
-        $petition = Petition::create($request->all());
+        $validatedData = $request->validate([
+            'status' => 'required',
+        ], self::$messages);
+        $petition = Petition::create($validatedData);
         return response()->json($petition, 201);
     }
 
