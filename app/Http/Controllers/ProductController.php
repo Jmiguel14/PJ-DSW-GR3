@@ -10,6 +10,10 @@ use App\Http\Resources\Product as ProductResource;
 
 class ProductController extends Controller
 {
+    private static $messages = [
+        'required' => 'El campo :attribute es obligatorio.'
+    ];
+
     public function index(){
         return new ProductCollection(Product::paginate(10));
     }
@@ -19,7 +23,14 @@ class ProductController extends Controller
     }
 
     public function store(Request $request){
-        $product = Product::create($request->all());
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:30',
+            'description'=>'required|string|max:200',
+            'price'=>'required',
+            'quantity'=>'required',
+            'base'=>'required'
+        ], self::$messages);
+        $product = Product::create($validatedData);
         return response()->json($product, 201);
     }
 

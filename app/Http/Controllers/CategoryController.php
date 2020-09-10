@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    private static $messages = [
+        'required' => 'El campo :attribute es obligatorio.'
+    ];
+
     public function index(){
         return new CategoryCollection(Category::paginate(10));
     }
@@ -18,7 +22,11 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request){
-        $category = Category::create($request->all());
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:200',
+        ], self::$messages);
+        //$course = Course::create($validatedData);
+        $category = Category::create($validatedData);
         return response()->json($category, 201);
     }
 

@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
+    private static $messages = [
+        'required' => 'El campo :attribute es obligatorio.'
+    ];
+
     public function index(){
         return new NotificationCollection(Notification::paginate(10));
     }
@@ -18,7 +22,10 @@ class NotificationController extends Controller
     }
 
     public function store(Request $request){
-        $notification = Notification::create($request->all());
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:200',
+        ], self::$messages);
+        $notification = Notification::create($validatedData);
         return response()->json($notification, 201);
     }
 

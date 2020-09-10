@@ -26,15 +26,18 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        //$validator = Validator::make($request->all(), [
-        //    'name' => 'required|string|max:80',
-        //    'lastname' => 'required|string|max:80',
-        //    'email' => 'required|string|email|max:255|unique:users',
-        //    'password' => 'required|string|min:6|confirmed',
-        //]);
-        //if ($validator->fails()) {
-        //    return response()->json($validator->errors()->toJson(), 400);
-        //}
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:80',
+            'lastname' => 'required|string|max:80',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'phone'=>'required|string|max:10',
+            'business_name'=>'required|string',
+            'description'=>'required|string'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
         $user = User::create([
             'name' => $request->get('name'),
             'lastname' => $request->get('lastname'),
