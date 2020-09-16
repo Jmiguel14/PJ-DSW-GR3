@@ -17,6 +17,13 @@ class AddUserIdColumnProduct extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
         });
+        Schema::create('product_provider',function (Blueprint $table){
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,7 +33,11 @@ class AddUserIdColumnProduct extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('product_provider');
         Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign(['user_id']); });
+            $table->dropForeign(['user_id']);
+        });
+        Schema::enableForeignKeyConstraints();
     }
 }

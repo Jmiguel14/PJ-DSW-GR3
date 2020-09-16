@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class Product extends Model
 {
     protected $fillable=['name', 'description', 'price', 'quantity', 'base'];
-    
+
     public static function boot() {
         parent::boot();
         static::creating(function ($product) {
@@ -25,5 +25,8 @@ class Product extends Model
     }
     public function user(){
         return $this->belongsTo('App\User');
+    }
+    public function providers(){
+        return $this->belongsToMany('App\User');
     }
 }
