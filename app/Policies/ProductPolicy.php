@@ -35,7 +35,7 @@ class ProductPolicy
      */
     public function view(User $user, Product $product)
     {
-        return $user->isGranted(User::ROLE_PROVIDER);
+        return $user->isGranted(User::ROLE_SELLER) && $user->id === $product->user_id;
     }
 
     /**
