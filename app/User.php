@@ -17,7 +17,24 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'email', 'password', 'phone', 'business_name', 'description'
+        'name',
+        'lastname',
+        'email',
+        'password',
+        'phone',
+        'business_name',
+        'description',
+        'role',
+    ];
+
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_SELLER = 'ROLE_SELLER';
+    const ROLE_PROVIDER = 'ROLE_PROVIDER';
+
+    private const ROLES_HIERARCHY = [
+        self::ROLE_ADMIN => [self::ROLE_SELLER],
+        self::ROLE_SELLER => [self::ROLE_PROVIDER],
+        self::ROLE_PROVIDER => []
     ];
 
     /**
@@ -57,5 +74,30 @@ class User extends Authenticatable implements JWTSubject
     }
     public function productsByProvider(){
         return $this->belongsToMany('App\Product');
+    }
+
+    public function isGranted ($role)
+    {
+        if ($role === $this->role)
+        {
+            return true;
+        }
+        return self::isRoleInHierarchy($role, self::ROLES_HIERARCHY[$this->role]);
+    }
+
+    private static function isRoleInHierarchy($role, $role_hierarchy)
+    {
+        if (in_array($role, $role_hierarchy))
+        {
+            return true;
+        }
+
+        foreach ($role_hierarchy as $role_included) {
+            if(self::isRoleInHierarchy($role,self::ROLES_HIERARCHY[$role_included]))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

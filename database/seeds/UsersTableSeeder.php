@@ -28,6 +28,7 @@ class UsersTableSeeder extends Seeder
             'phone' => 988185518,
             'business_name' => 'tienda carmita',
             'description' => 'Mini marquet',
+            'role' => 'ROLE_ADMIN',
         ]);
 
         // Generar algunos usuarios para nuestra aplicacion
@@ -40,6 +41,7 @@ class UsersTableSeeder extends Seeder
                 'phone' => $faker->phoneNumber,
                 'business_name' => $faker->company,
                 'description' => $faker->paragraph,
+                'role'=> $faker->randomElement(['ROLE_SELLER','ROLE_PROVIDER']),
             ]);
         }
     }
