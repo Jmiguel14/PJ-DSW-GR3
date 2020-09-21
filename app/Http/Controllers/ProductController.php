@@ -7,6 +7,8 @@ use App\Http\Resources\ProductCollection;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\Product as ProductResource;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProductController extends Controller
 {
@@ -31,7 +33,9 @@ class ProductController extends Controller
             'description'=>'required|string|max:200',
             'price'=>'required',
             'quantity'=>'required',
-            'base'=>'required'
+            'base'=>'required',
+            'category_id'=>'required',
+            'provider_id'=>'required'
         ], self::$messages);
         $product = Product::create($validatedData);
         return response()->json($product, 201);
@@ -47,5 +51,10 @@ class ProductController extends Controller
         $this->authorize('delete', $product);
         $product->delete();
         return response()->json(null, 204);
+    }
+    public function productsBySeller(){
+        $user=Auth::user();
+        $products=$user->products;
+        return response()->json(ProductResource::collection($products),200);
     }
 }

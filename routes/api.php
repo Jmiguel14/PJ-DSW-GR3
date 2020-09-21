@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['cors']], function () { // <=== Añadir el middleware
     Route::post('register', 'UserController@register');
     Route::post('login', 'UserController@authenticate');
+    Route::post('logout', 'UserController@logout');
 
     Route::group(['middleware' => ['jwt.verify']], function() {
         #Rutas para Product
@@ -29,7 +30,7 @@ Route::group(['middleware' => ['cors']], function () { // <=== Añadir el middle
         Route::post('products', 'ProductController@store');
         Route::put('products/{product}', 'ProductController@update');
         Route::delete('products/{product}', 'ProductController@delete');
-
+        Route::get('products', 'ProductController@productsBySeller');
         #Rutas para Petition
         Route::get('petitions', 'PetitionController@index');
         Route::get('petitions/{petition}', 'PetitionController@show');
