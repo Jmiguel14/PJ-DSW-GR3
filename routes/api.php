@@ -18,37 +18,41 @@ use Illuminate\Http\Request;
     return $request->user();
 });*/
 //rutas publicas
-Route::post('register', 'UserController@register');
-Route::post('login', 'UserController@authenticate');
+Route::group(['middleware' => ['cors']], function () { // <=== Añadir el middleware
+    Route::post('register', 'UserController@register');
+    Route::post('login', 'UserController@authenticate');
+    Route::post('logout', 'UserController@logout');
 
-Route::group(['middleware' => ['jwt.verify']], function() {
-    #Rutas para Product
-    Route::get('products', 'ProductController@index');
-    Route::get('products/{product}', 'ProductController@show');
-    Route::post('products', 'ProductController@store');
-    Route::put('products/{product}', 'ProductController@update');
-    Route::delete('products/{product}', 'ProductController@delete');
+    Route::group(['middleware' => ['jwt.verify']], function() {
+        #Rutas para Product
+        Route::get('products', 'ProductController@index');
+        Route::get('products/{product}', 'ProductController@show');
+        Route::post('products', 'ProductController@store');
+        Route::put('products/{product}', 'ProductController@update');
+        Route::delete('products/{product}', 'ProductController@delete');
+        Route::get('products', 'ProductController@productsBySeller');
+        #Rutas para Petition
+        Route::get('petitions', 'PetitionController@index');
+        Route::get('petitions/{petition}', 'PetitionController@show');
+        Route::post('petitions', 'PetitionController@store');
+        Route::put('petitions/{petition}', 'PetitionController@update');
+        Route::delete('petitions/{petition}', 'PetitionController@delete');
 
-    #Rutas para Petition
-    Route::get('petitions', 'PetitionController@index');
-    Route::get('petitions/{petition}', 'PetitionController@show');
-    Route::post('petitions', 'PetitionController@store');
-    Route::put('petitions/{petition}', 'PetitionController@update');
-    Route::delete('petitions/{petition}', 'PetitionController@delete');
+        #Rutas para Notification
+        Route::get('notifications', 'NotificationController@index');
+        Route::get('notifications/{notification}', 'NotificationController@show');
+        Route::post('notifications', 'NotificationController@store');
+        Route::put('notifications/{notification}', 'NotificationController@update');
+        Route::delete('notifications/{notification}', 'NotificationController@delete');
 
-    #Rutas para Notification
-    Route::get('notifications', 'NotificationController@index');
-    Route::get('notifications/{notification}', 'NotificationController@show');
-    Route::post('notifications', 'NotificationController@store');
-    Route::put('notifications/{notification}', 'NotificationController@update');
-    Route::delete('notifications/{notification}', 'NotificationController@delete');
-
-    #Rutas para Category
-    Route::get('categories', 'CategoryController@index');
-    Route::get('categories/{category}', 'CategoryController@show');
-    Route::post('categories', 'CategoryController@store');
-    Route::put('categories/{category}', 'CategoryController@update');
-    Route::delete('categories/{category}', 'CategoryController@delete');
+        #Rutas para Category
+        Route::get('categories', 'CategoryController@index');
+        Route::get('categories/{category}', 'CategoryController@show');
+        Route::post('categories', 'CategoryController@store');
+        Route::put('categories/{category}', 'CategoryController@update');
+        Route::delete('categories/{category}', 'CategoryController@delete');
+    });
 });
+
 
 

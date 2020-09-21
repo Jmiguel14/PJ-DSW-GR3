@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
-    protected $fillable=['name', 'description', 'price', 'quantity', 'base'];
+    protected $fillable=['name', 'description', 'price', 'quantity', 'base','category_id','provider_id'];
 
     public static function boot() {
         parent::boot();
@@ -26,7 +26,7 @@ class Product extends Model
     public function user(){
         return $this->belongsTo('App\User');
     }
-    public function providers(){
-        return $this->belongsToMany('App\User');
+    public function provider(){
+        return $this->belongsTo('App\User');
     }
 }

@@ -19,6 +19,7 @@ class ProductsTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
         // Crear productos ficticios en la table
         $users = App\User::all();
+        $provider=sizeof($users);
         foreach ($users as $user) {
             JWTAuth::attempt(['email' => $user->email, 'password' => '123456']);
             $categories = App\Category::all();
@@ -31,6 +32,7 @@ class ProductsTableSeeder extends Seeder
                         'quantity' => $faker->numberBetween(1, 100),
                         'base' => $faker->numberBetween(10, 15),
                         'category_id' => $category->id,
+                        'provider_id'=>$faker->numberBetween(1,$provider),
                     ]);
                 }
             }

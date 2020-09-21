@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\Category as CategoryResource;
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends JsonResource
 {
@@ -18,6 +19,7 @@ class Product extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this->id,
             'name' => $this->name,
             'description' =>$this->description,
             'price' => $this->price,
@@ -25,6 +27,7 @@ class Product extends JsonResource
             'base' => $this->base,
             'user' => new UserResource($this->user),
             'category' => new CategoryResource($this->category),
+            //'notification'=>$this->when($this->id==Auth::user()->products()->notifications()->product_id,new Notification($this->notifications)),
         ];
     }
 }
