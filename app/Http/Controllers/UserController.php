@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\User as UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -27,18 +28,29 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        //$validator = Validator::make($request->all(), [
+        //    'name' => 'required|string|max:80',
+        //    'lastname' => 'required|string|max:80',
+        //    'email' => 'required|string|email|max:255|unique:users',
+        //    'password' => 'required|string|min:6|confirmed',
+        //    'phone'=>'required|string|max:10',
+        //    'business_name'=>'required|string',
+        //    'description'=>'required|string',
+        //    'role' => 'required',
+        //]);
+        $request->validate([
             'name' => 'required|string|max:80',
             'lastname' => 'required|string|max:80',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone'=>'required|string|max:10',
             'business_name'=>'required|string',
-            'description'=>'required|string'
+            'description'=>'required|string',
+            'role' => 'required',
         ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
+        //if ($validator->fails()) {
+        //    return response()->json($validator->errors()->toJson(), 400);
+        //}
         $user = User::create([
             'name' => $request->get('name'),
             'lastname' => $request->get('lastname'),
@@ -47,10 +59,12 @@ class UserController extends Controller
             'phone' => $request->get('phone'),
             'business_name' => $request->get('business_name'),
             'description' => $request->get('description'),
+            'role' => $request->get('role'),
         ]);
 
         $token = JWTAuth::fromUser($user);
-        return response()->json(compact('user', 'token'), 201);
+
+        return response()->json(new UserResource($user, $token), 201);
     }
 
     public function getAuthenticatedUser()
@@ -66,7 +80,7 @@ class UserController extends Controller
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
             return response()->json(['message'=>'token_absent'], $e->getStatusCode());
         }
-        return response()->json(compact('user'));
+        return response()->json(new UserResource($user), 200);
     }
     public function logout() {
         try { JWTAuth::invalidate(JWTAuth::getToken());
